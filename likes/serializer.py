@@ -15,9 +15,7 @@ class LikesSerializer(serializers.ModelSerializer):
         ]
 
     def create(self,validated_data):
-        """
-        This will prevent the user from liking the same post twice.
-        """
+        
         try:
             return super().create(validated_data)
         except IntegrityError:
