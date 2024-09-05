@@ -1,5 +1,6 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 from drf_api.permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Comment
 from .serializer import CommentSerializer, CommentDetailSerializer
 
@@ -24,6 +25,16 @@ class CommentList(generics.ListCreateAPIView):
         post_id = self.request.data.get('post_id')  # Get post_id from request data
         # Ensure that post_id exists and is valid before creating the comment
         serializer.save(post_id=post_id)
+
+    filter_backends =[
+        DjangoFilterBackend
+    ]
+
+
+    filterset_fields=[
+       'post'  
+    ]
+    
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     """
